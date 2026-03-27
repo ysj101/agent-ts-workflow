@@ -2,3 +2,7 @@
 
 [features]
 codex_hooks = true
+
+[mcp_servers.context7]
+command = "npx"
+args = ["--yes", "@upstash/context7-mcp"]

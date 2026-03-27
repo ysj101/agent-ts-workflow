@@ -16,6 +16,9 @@ pnpm run build
 - `Oxlint` による lint
 - `Biome` による format
 - `.codex/hooks.json` の `PostToolUse` による Bash 実行後の自動品質チェック
+- `.codex/config.toml` による `context7` の repo-local MCP 同梱
+- `.agents/skills` による repo-local skill 同梱
+- `scripts/setup-codex-tooling.sh` による `agent-browser` bootstrap
 - `AGENTS.md` と `PLANS.md` による ExecPlan 運用
 - `screenshots/` への保存を前提にしたフロントエンド確認フロー
 
@@ -26,25 +29,36 @@ pnpm run build
 ### Included By Default
 
 - `.codex/config.toml` で `codex_hooks = true`
+- `.codex/config.toml` で `context7` を repo-local MCP として定義
 - `.codex/hooks.json` で `SessionStart` と `PostToolUse` を有効化
 - `.codex/hooks/session-start-context.mjs` で開始時に作業ルールを補足
 - `.codex/hooks/post-tool-use-quality.mjs` で Bash 実行後に変更ファイルへ Biome/Oxlint を適用
+- `.agents/skills/agent-browser` で `vercel-labs/agent-browser` skill を同梱
+- `.agents/skills/frontend-design` で `anthropics/claude-code` の `frontend-design` skill を同梱
 
-### Optional Local Tooling
+### Included Repo-Local Skills
+
+- `.agents/skills/agent-browser` は `vercel-labs/agent-browser` の skill を vendoring したものです
+- `.agents/skills/frontend-design` は `anthropics/claude-code` の `plugins/frontend-design/skills/frontend-design` を vendoring したものです
+- Codex は `$CWD` から repo root までの `.agents/skills` を読むため、user-level の skill install は不要です
+
+### Included Local Tooling Bootstrap
 
 ```bash
-# agentic browser
-npm install -g agent-browser
-agent-browser install
-agent-browser install --with-deps
-npx skills add vercel-labs/agent-browser
-
-# context7
-claude mcp add context7 -- npx --yes @upstash/context7-mcp
-
-# frontend design
-npx skills add anthropics/claude-code
+pnpm run setup:codex
 ```
+
+必要ならブラウザ依存物込みで:
+
+```bash
+pnpm run setup:codex:full
+```
+
+この bootstrap は次をまとめて実行します。
+
+- `agent-browser` の global install
+- `agent-browser install` の実行
+- `--with-deps` 指定時の追加依存物 install
 
 ## Quality Commands
 
@@ -78,6 +92,9 @@ agent-browser screenshot --full screenshots/2026-03-28-home-page.png
 - `.codex/hooks.json`
 - `.codex/hooks/session-start-context.mjs`
 - `.codex/hooks/post-tool-use-quality.mjs`
+- `.agents/skills/agent-browser/SKILL.md`
+- `.agents/skills/frontend-design/SKILL.md`
+- `scripts/setup-codex-tooling.sh`
 - `AGENTS.md`
 - `PLANS.md`
 

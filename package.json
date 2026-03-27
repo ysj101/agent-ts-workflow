@@ -10,7 +10,9 @@
     "format": "biome format --write .",
     "format:check": "biome check .",
     "quality": "pnpm run format && pnpm run lint && pnpm run typecheck",
-    "hook:posttooluse": "node ./.codex/hooks/post-tool-use-quality.mjs"
+    "hook:posttooluse": "node ./.codex/hooks/post-tool-use-quality.mjs",
+    "setup:codex": "./scripts/setup-codex-tooling.sh",
+    "setup:codex:full": "./scripts/setup-codex-tooling.sh --with-deps"
   },
   "repository": {
     "type": "git",

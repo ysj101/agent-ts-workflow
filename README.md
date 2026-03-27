@@ -21,12 +21,16 @@ pnpm run build
 
 ## Codex Setup
 
-### Repo-local Codex config
+このリポジトリには repo-local の Codex 設定を最初から同梱しています。
+
+### Included By Default
 
 - `.codex/config.toml` で `codex_hooks = true`
 - `.codex/hooks.json` で `SessionStart` と `PostToolUse` を有効化
+- `.codex/hooks/session-start-context.mjs` で開始時に作業ルールを補足
+- `.codex/hooks/post-tool-use-quality.mjs` で Bash 実行後に変更ファイルへ Biome/Oxlint を適用
 
-### Local agent tooling
+### Optional Local Tooling
 
 ```bash
 # agentic browser

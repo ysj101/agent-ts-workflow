@@ -1,0 +1,29 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$(git rev-parse --show-toplevel)/.codex/hooks/session-start-context.mjs\"",
+            "statusMessage": "Loading repository conventions"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$(git rev-parse --show-toplevel)/.codex/hooks/post-tool-use-quality.mjs\"",
+            "statusMessage": "Running Biome and Oxlint on changed files",
+            "timeout": 120
+          }
+        ]
+      }
+    ]
+  }
+}

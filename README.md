@@ -15,6 +15,7 @@ make build
 - TypeScript の最小構成
 - `Oxlint` による lint
 - `Biome` による format
+- `husky + lint-staged` による staged file 向け pre-commit チェック
 - `.codex/hooks.json` の `PostToolUse` による Bash 実行後の自動品質チェック
 - `.codex/config.toml` による `context7` の repo-local MCP 同梱
 - `.agents/skills` による repo-local skill 同梱
@@ -81,6 +82,15 @@ pnpm run quality
 ```
 
 `PostToolUse` hook は公式仕様上 `Bash` にしか反応しません。`apply_patch` で編集した内容は自動検知されないため、実際の運用では最後に `pnpm run quality` を明示実行してください。
+
+## Git Hooks
+
+`pnpm install` 時に `husky` が有効化され、`pre-commit` では staged file に対して次だけを実行します。
+
+- `biome check --write`
+- `oxlint`
+
+重い `typecheck` や full quality gate は commit hook に入れず、明示的に `make quality` または `pnpm run quality` で回す前提です。
 
 ## Frontend Screenshot Workflow
 

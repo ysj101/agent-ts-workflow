@@ -7,8 +7,10 @@
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit",
     "lint": "oxlint .",
+    "lint:staged": "lint-staged",
     "format": "biome format --write .",
     "format:check": "biome check .",
+    "prepare": "husky",
     "quality": "pnpm run format && pnpm run lint && pnpm run typecheck",
     "hook:posttooluse": "node ./.codex/hooks/post-tool-use-quality.mjs",
     "setup:codex": "./scripts/setup-codex-tooling.sh",
@@ -30,7 +32,13 @@
   "homepage": "https://github.com/ysj101/codex-ts-workflow#readme",
   "devDependencies": {
     "@biomejs/biome": "^2.4.9",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
     "oxlint": "^1.57.0",
     "typescript": "^6.0.2"
+  },
+  "lint-staged": {
+    "*.{js,cjs,mjs,ts,tsx,jsx,json,jsonc,md,css,scss,html,yml,yaml}": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true",
+    "*.{js,cjs,mjs,ts,tsx,jsx}": "oxlint --quiet"
   }
 }

@@ -2,9 +2,12 @@
   "name": "agent-ts-workflow",
   "version": "0.1.0",
   "private": true,
-  "description": "Agent-neutral TypeScript starter with Oxlint, Biome, shared hooks, and ExecPlan workflow.",
+  "description": "Agent-neutral TypeScript starter with Tailwind CSS, Oxlint, Biome, shared hooks, and ExecPlan workflow.",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "pnpm run build:ts && pnpm run build:css",
+    "build:ts": "tsc -p tsconfig.json",
+    "build:css": "pnpm exec tailwindcss -i ./src/styles/tailwind.css -o ./dist/tailwind.css --minify",
+    "dev:css": "pnpm exec tailwindcss -i ./src/styles/tailwind.css -o ./dist/tailwind.css --watch",
     "typecheck": "tsc --noEmit",
     "lint": "oxlint .",
     "lint:staged": "lint-staged --concurrent false",
@@ -34,9 +37,11 @@
   "homepage": "https://github.com/ysj101/agent-ts-workflow#readme",
   "devDependencies": {
     "@biomejs/biome": "^2.4.9",
+    "@tailwindcss/cli": "4.2.2",
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
     "oxlint": "^1.57.0",
+    "tailwindcss": "4.2.2",
     "typescript": "^6.0.2"
   }
 }

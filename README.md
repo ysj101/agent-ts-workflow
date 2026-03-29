@@ -1,6 +1,6 @@
 # agent-ts-workflow
 
-Codex と Claude Code の両方で使える TypeScript 開発用テンプレートです。`Oxlint + Biome`、共有 hook、ExecPlan 運用、`agent-browser` を使ったフロントエンドのスクリーンショット運用を最初から入れています。アプリのパッケージ管理は `pnpm` 前提です。
+Codex と Claude Code の両方で使える TypeScript 開発用テンプレートです。`Tailwind CSS v4`、`Oxlint + Biome`、共有 hook、ExecPlan 運用、`agent-browser` を使ったフロントエンドのスクリーンショット運用を最初から入れています。アプリのパッケージ管理は `pnpm` 前提です。
 
 ## Quick Start
 
@@ -14,6 +14,7 @@ make build
 ## Included In This Template
 
 - TypeScript の最小構成
+- `Tailwind CSS v4` と CLI による最小 CSS build
 - `Oxlint` による lint
 - `Biome` による format
 - `husky + lint-staged` による staged file 向け pre-commit チェック
@@ -47,6 +48,27 @@ make bootstrap-full
 - `agent-browser` の global install
 - `agent-browser install` の実行
 - `--with-deps` 指定時の追加依存物 install
+
+## Tailwind CSS
+
+このテンプレートには `tailwindcss@4` と `@tailwindcss/cli` が入っています。
+
+- 入力 CSS: `src/styles/tailwind.css`
+- 出力 CSS: `dist/tailwind.css`
+
+生成コマンド:
+
+```bash
+pnpm run build:css
+```
+
+watch モード:
+
+```bash
+pnpm run dev:css
+```
+
+`make build` / `pnpm run build` は TypeScript build に加えて Tailwind CSS の出力も行います。
 
 ## Codex Setup
 
@@ -92,6 +114,7 @@ make quality
 pnpm run lint
 pnpm run format
 pnpm run format:check
+pnpm run build:css
 pnpm run typecheck
 pnpm run quality
 ```

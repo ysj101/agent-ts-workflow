@@ -1,8 +1,8 @@
 {
-  "name": "codex-ts-workflow",
+  "name": "agent-ts-workflow",
   "version": "0.1.0",
   "private": true,
-  "description": "Codex-first TypeScript starter with Oxlint, Biome, hooks, and ExecPlan workflow.",
+  "description": "Agent-neutral TypeScript starter with Oxlint, Biome, shared hooks, and ExecPlan workflow.",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit",
@@ -12,13 +12,15 @@
     "format:check": "biome check .",
     "prepare": "husky",
     "quality": "pnpm run format && pnpm run lint && pnpm run typecheck",
-    "hook:posttooluse": "node ./.codex/hooks/post-tool-use-quality.mjs",
-    "setup:codex": "./scripts/setup-codex-tooling.sh",
-    "setup:codex:full": "./scripts/setup-codex-tooling.sh --with-deps"
+    "hook:posttooluse": "node ./scripts/agent-hooks/post-tool-use-quality.mjs",
+    "setup:bootstrap": "./scripts/setup-agent-tooling.sh bootstrap",
+    "setup:bootstrap:full": "./scripts/setup-agent-tooling.sh bootstrap --with-deps",
+    "setup:codex": "./scripts/setup-agent-tooling.sh setup codex",
+    "setup:claude": "./scripts/setup-agent-tooling.sh setup claude"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ysj101/codex-ts-workflow.git"
+    "url": "git+https://github.com/ysj101/agent-ts-workflow.git"
   },
   "license": "MIT",
   "type": "module",
@@ -27,9 +29,9 @@
     "node": ">=22.0.0"
   },
   "bugs": {
-    "url": "https://github.com/ysj101/codex-ts-workflow/issues"
+    "url": "https://github.com/ysj101/agent-ts-workflow/issues"
   },
-  "homepage": "https://github.com/ysj101/codex-ts-workflow#readme",
+  "homepage": "https://github.com/ysj101/agent-ts-workflow#readme",
   "devDependencies": {
     "@biomejs/biome": "^2.4.9",
     "husky": "^9.1.7",

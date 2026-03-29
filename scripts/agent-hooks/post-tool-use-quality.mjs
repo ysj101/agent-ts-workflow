@@ -11,7 +11,7 @@ const biomeExtensions = new Set([
   ".cjs",
   ".json",
   ".jsonc",
-  ".css"
+  ".css",
 ])
 
 const oxlintExtensions = new Set([".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs"])
@@ -21,7 +21,7 @@ function run(command, args, cwd) {
   return execFileSync(command, args, {
     cwd,
     encoding: "utf8",
-    stdio: ["ignore", "pipe", "pipe"]
+    stdio: ["ignore", "pipe", "pipe"],
   }).trim()
 }
 
@@ -33,11 +33,9 @@ function splitLines(value) {
 }
 
 function changedFiles(cwd) {
-  const tracked = splitLines(
-    run("git", ["diff", "--name-only", "--diff-filter=ACMRTUXB"], cwd)
-  )
+  const tracked = splitLines(run("git", ["diff", "--name-only", "--diff-filter=ACMRTUXB"], cwd))
   const staged = splitLines(
-    run("git", ["diff", "--cached", "--name-only", "--diff-filter=ACMRTUXB"], cwd)
+    run("git", ["diff", "--cached", "--name-only", "--diff-filter=ACMRTUXB"], cwd),
   )
   const untracked = splitLines(run("git", ["ls-files", "--others", "--exclude-standard"], cwd))
 
@@ -61,12 +59,12 @@ function main() {
 
   const biomeFiles = filesForExtensions(
     files.filter((file) => !file.startsWith(".codex/")),
-    biomeExtensions
+    biomeExtensions,
   )
   if (biomeFiles.length > 0) {
     execFileSync("pnpm", ["exec", "biome", "format", "--write", ...biomeFiles], {
       cwd,
-      stdio: "inherit"
+      stdio: "inherit",
     })
   }
 
@@ -74,7 +72,7 @@ function main() {
   if (oxlintFiles.length > 0) {
     execFileSync("pnpm", ["exec", "oxlint", ...oxlintFiles], {
       cwd,
-      stdio: "inherit"
+      stdio: "inherit",
     })
   }
 }

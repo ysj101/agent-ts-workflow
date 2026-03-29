@@ -1,5 +1,5 @@
-export const starterName = "codex-ts-workflow"
+export const starterName = "agent-ts-workflow"
 
 export function describeStarter(): string {
-  return `${starterName}: Codex-first TypeScript starter`
+  return `${starterName}: agent-ready TypeScript starter`
 }

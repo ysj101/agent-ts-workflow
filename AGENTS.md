@@ -3,8 +3,8 @@
 ## Quality Gate
 
 - Run `pnpm run quality` before you finish any code change.
-- The repo-local `PostToolUse` hook automatically runs Biome formatting and Oxlint for changed files after Bash commands.
-- The hook does not observe `apply_patch`, so manual edits still require an explicit `pnpm run quality`.
+- Repo-local agent hooks automatically run Biome formatting and Oxlint for changed files after supported tool edits.
+- Codex only triggers that hook after `Bash`, and Claude Code only triggers it after `Edit` / `Write`, so manual edits still require an explicit `pnpm run quality`.
 
 ## ExecPlans
 
@@ -18,3 +18,9 @@ Keep the ExecPlan up to date while you work. Do not ask for "next steps" between
 - Use a descriptive filename such as `screenshots/2026-03-28-home-page.png`.
 - Mention the captured screenshots in the final user-facing response and summarize what changed visually.
 - If the page is responsive, capture both desktop and mobile states when the change materially affects layout.
+
+## Agent Configs
+
+- Codex uses `.codex/hooks.json`.
+- Claude Code uses `CLAUDE.md` and `.claude/settings.json`.
+- Keep shared hook logic in `scripts/agent-hooks/` so both agents follow the same repository automation.

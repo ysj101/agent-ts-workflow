@@ -1,7 +1,7 @@
 {
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!dist", "!node_modules", "!.codex", "!.codex/**", "!screenshots/*.png"]
+    "includes": ["**", "!dist", "!node_modules", "!.codex", "!screenshots/*.png"]
   },
   "formatter": {
     "enabled": true,

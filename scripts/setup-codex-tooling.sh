@@ -4,6 +4,7 @@ set -euo pipefail
 
 PNPM_VERSION="10.30.2"
 CODEX_PACKAGE="@openai/codex"
+SKILLS_PACKAGE="skills@latest"
 with_deps=false
 
 if [[ "${1:-}" == "--with-deps" ]]; then
@@ -92,9 +93,24 @@ ensure_codex() {
   fi
 }
 
+install_codex_skills() {
+  echo "Installing Codex skills..."
+  npx --yes "${SKILLS_PACKAGE}" add \
+    "https://github.com/vercel-labs/agent-browser/tree/main/skills/agent-browser" \
+    -g \
+    -a codex \
+    -y
+  npx --yes "${SKILLS_PACKAGE}" add \
+    "https://github.com/anthropics/claude-code/tree/main/plugins/frontend-design/skills/frontend-design" \
+    -g \
+    -a codex \
+    -y
+}
+
 ensure_npm
 ensure_pnpm
 ensure_codex
+install_codex_skills
 
 echo "Installing agent-browser globally..."
 npm install -g agent-browser

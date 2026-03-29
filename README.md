@@ -18,8 +18,7 @@ make build
 - `husky + lint-staged` による staged file 向け pre-commit チェック
 - `.codex/hooks.json` の `PostToolUse` による Bash 実行後の自動品質チェック
 - `.codex/config.toml` による `context7` の repo-local MCP 同梱
-- `.agents/skills` による repo-local skill 同梱
-- `scripts/setup-codex-tooling.sh` による `agent-browser` bootstrap
+- `scripts/setup-codex-tooling.sh` による Codex tooling と skill bootstrap
 - `AGENTS.md` と `PLANS.md` による ExecPlan 運用
 - `screenshots/` への保存を前提にしたフロントエンド確認フロー
 
@@ -34,14 +33,13 @@ make build
 - `.codex/hooks.json` で `SessionStart` と `PostToolUse` を有効化
 - `.codex/hooks/session-start-context.mjs` で開始時に作業ルールを補足
 - `.codex/hooks/post-tool-use-quality.mjs` で Bash 実行後に変更ファイルへ Biome/Oxlint を適用
-- `.agents/skills/agent-browser` で `vercel-labs/agent-browser` skill を同梱
-- `.agents/skills/frontend-design` で `anthropics/claude-code` の `frontend-design` skill を同梱
 
-### Included Repo-Local Skills
+### Installed By Setup Command
 
-- `.agents/skills/agent-browser` は `vercel-labs/agent-browser` の skill を vendoring したものです
-- `.agents/skills/frontend-design` は `anthropics/claude-code` の `plugins/frontend-design/skills/frontend-design` を vendoring したものです
-- Codex は `$CWD` から repo root までの `.agents/skills` を読むため、user-level の skill install は不要です
+- `vercel-labs/agent-browser` の skill
+- `anthropics/claude-code` の `frontend-design` skill
+- `make setup-codex` は `npx skills add ... -g -a codex` を使って user-level に install します
+- repo には skill 本体を vendoring しません
 
 ### Included Local Tooling Bootstrap
 
@@ -60,6 +58,7 @@ make setup-codex-full
 - `npm` の確認と不足時の install
 - `pnpm` の確認と不足時の install
 - `codex` CLI の確認と `@openai/codex` の global install
+- Codex 向け skill の user-level install
 - `agent-browser` の global install
 - `agent-browser install` の実行
 - `--with-deps` 指定時の追加依存物 install
@@ -112,8 +111,6 @@ agent-browser screenshot --full screenshots/2026-03-28-home-page.png
 - `.codex/hooks.json`
 - `.codex/hooks/session-start-context.mjs`
 - `.codex/hooks/post-tool-use-quality.mjs`
-- `.agents/skills/agent-browser/SKILL.md`
-- `.agents/skills/frontend-design/SKILL.md`
 - `scripts/setup-codex-tooling.sh`
 - `AGENTS.md`
 - `PLANS.md`

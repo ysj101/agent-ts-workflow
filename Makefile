@@ -4,10 +4,10 @@ SHELL := /bin/bash
 
 help:
 	@echo "Available targets:"
-	@echo "  make bootstrap         Install npm/pnpm/codex if needed, install repo deps, and set up Codex tooling"
+	@echo "  make bootstrap         Install npm/pnpm/codex if needed, install repo deps, and set up Codex tooling and skills"
 	@echo "  make bootstrap-full    Same as bootstrap, with agent-browser system dependencies"
 	@echo "  make deps              Install repository dependencies with pnpm"
-	@echo "  make setup-codex       Install npm/pnpm/codex if needed and set up Codex tooling"
+	@echo "  make setup-codex       Install npm/pnpm/codex if needed and set up Codex tooling and skills"
 	@echo "  make setup-codex-full  Same as setup-codex, with agent-browser system dependencies"
 	@echo "  make build             Run the TypeScript build"
 	@echo "  make lint              Run oxlint"

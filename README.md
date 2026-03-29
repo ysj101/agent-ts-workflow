@@ -1,11 +1,12 @@
-# codex-ts-workflow
+# agent-ts-workflow
 
-Codex で TypeScript を使って開発するための標準リポジトリです。`Oxlint + Biome`、Codex hooks、ExecPlan 運用、`agent-browser` を使ったフロントエンドのスクリーンショット運用を最初から入れています。アプリのパッケージ管理は `pnpm` 前提です。
+Codex と Claude Code の両方で使える TypeScript 開発用テンプレートです。`Oxlint + Biome`、共有 hook、ExecPlan 運用、`agent-browser` を使ったフロントエンドのスクリーンショット運用を最初から入れています。アプリのパッケージ管理は `pnpm` 前提です。
 
 ## Quick Start
 
 ```bash
 make bootstrap
+make setup-codex   # or: make setup-claude
 make quality
 make build
 ```
@@ -16,58 +17,73 @@ make build
 - `Oxlint` による lint
 - `Biome` による format
 - `husky + lint-staged` による staged file 向け pre-commit チェック
-- `.codex/hooks.json` の `PostToolUse` による Bash 実行後の自動品質チェック
-- `.codex/config.toml` による `context7` の repo-local MCP 同梱
-- `scripts/setup-codex-tooling.sh` による Codex tooling と skill bootstrap
+- `scripts/agent-hooks/` による共有 hook 実装
+- `.codex/hooks.json` と `.claude/settings.json` による repo-local agent hook 設定
+- `.codex/config.toml` による Codex 向け repo-local MCP 同梱
+- `CLAUDE.md` による Claude Code 向け project memory
+- `scripts/setup-agent-tooling.sh` による共通 bootstrap と agent 別 setup
 - `AGENTS.md` と `PLANS.md` による ExecPlan 運用
 - `screenshots/` への保存を前提にしたフロントエンド確認フロー
 
-## Codex Setup
+## Shared Bootstrap
 
-このリポジトリには repo-local の Codex 設定を最初から同梱しています。
-
-### Included By Default
-
-- `.codex/config.toml` で `codex_hooks = true`
-- `.codex/config.toml` で `context7` を repo-local MCP として定義
-- `.codex/hooks.json` で `SessionStart` と `PostToolUse` を有効化
-- `.codex/hooks/session-start-context.mjs` で開始時に作業ルールを補足
-- `.codex/hooks/post-tool-use-quality.mjs` で Bash 実行後に変更ファイルへ Biome/Oxlint を適用
-
-### Installed By Setup Command
-
-- `vercel-labs/agent-browser` の skill
-- `anthropics/claude-code` の `frontend-design` skill
-- `make setup-codex` は `npx skills add ... -g -a codex` を使って user-level に install します
-- repo には skill 本体を vendoring しません
-
-### Included Local Tooling Bootstrap
+最初に共有依存を入れます。
 
 ```bash
-make setup-codex
+make bootstrap
 ```
 
 必要ならブラウザ依存物込みで:
 
 ```bash
-make setup-codex-full
+make bootstrap-full
 ```
 
 この bootstrap は次をまとめて実行します。
 
 - `npm` の確認と不足時の install
 - `pnpm` の確認と不足時の install
-- `codex` CLI の確認と `@openai/codex` の global install
-- Codex 向け skill の user-level install
+- repository dependencies の install
 - `agent-browser` の global install
 - `agent-browser install` の実行
 - `--with-deps` 指定時の追加依存物 install
 
-リポジトリ依存物までまとめて入れるなら:
+## Codex Setup
+
+Codex を使う場合は、共有 bootstrap の後に次を実行します。
 
 ```bash
-make bootstrap
+make setup-codex
 ```
+
+Codex setup では次を実行します。
+
+- `codex` CLI の確認と `@openai/codex` の global install
+- Codex 向け skill の user-level install
+- repo-local の `.codex/config.toml` と `.codex/hooks.json` を利用
+
+## Claude Code Setup
+
+Claude Code を使う場合は、共有 bootstrap の後に次を実行します。
+
+```bash
+make setup-claude
+```
+
+Claude setup では次を実行します。
+
+- `claude` CLI の確認と `@anthropic-ai/claude-code` の global install
+- repo-local の `CLAUDE.md` と `.claude/settings.json` を利用
+
+## Agent Config Layout
+
+- `AGENTS.md`: agent 共通の repository conventions
+- `PLANS.md`: ExecPlan のフォーマット
+- `scripts/agent-hooks/`: startup context と quality automation の共有実装
+- `.codex/hooks.json`: Codex 用 hook 設定
+- `.codex/config.toml`: Codex 用 MCP / hook 設定
+- `CLAUDE.md`: Claude Code 用 project memory entrypoint
+- `.claude/settings.json`: Claude Code 用 project settings / hooks
 
 ## Quality Commands
 
@@ -80,7 +96,12 @@ pnpm run typecheck
 pnpm run quality
 ```
 
-`PostToolUse` hook は公式仕様上 `Bash` にしか反応しません。`apply_patch` で編集した内容は自動検知されないため、実際の運用では最後に `pnpm run quality` を明示実行してください。
+repo-local の自動品質 hook は agent ごとに反応する tool が異なります。
+
+- Codex: `PostToolUse` は `Bash` にしか反応しません
+- Claude Code: `PostToolUse` は `Edit` / `Write` にしか反応しません
+
+そのため、実際の運用では最後に `pnpm run quality` を明示実行してください。
 
 ## Git Hooks
 
@@ -107,13 +128,16 @@ agent-browser screenshot --full screenshots/2026-03-28-home-page.png
 
 ## Hooks And Files
 
+- `CLAUDE.md`
+- `.claude/settings.json`
 - `.codex/config.toml`
 - `.codex/hooks.json`
-- `.codex/hooks/session-start-context.mjs`
-- `.codex/hooks/post-tool-use-quality.mjs`
-- `scripts/setup-codex-tooling.sh`
+- `scripts/agent-hooks/session-start-context.mjs`
+- `scripts/agent-hooks/post-tool-use-quality.mjs`
+- `scripts/setup-agent-tooling.sh`
 - `AGENTS.md`
 - `PLANS.md`
+- `plans/agent-ts-workflow-dual-agent.md`
 
 ## Suggested Next Additions
 

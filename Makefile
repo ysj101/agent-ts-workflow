@@ -1,14 +1,14 @@
 SHELL := /bin/bash
 
-.PHONY: help bootstrap bootstrap-full deps setup-codex setup-codex-full build lint format format-check typecheck quality
+.PHONY: help bootstrap bootstrap-full deps setup-codex setup-claude build lint format format-check typecheck quality
 
 help:
 	@echo "Available targets:"
-	@echo "  make bootstrap         Install npm/pnpm/codex if needed, install repo deps, and set up Codex tooling and skills"
+	@echo "  make bootstrap         Install shared tooling (npm, pnpm, repo deps, agent-browser runtime)"
 	@echo "  make bootstrap-full    Same as bootstrap, with agent-browser system dependencies"
 	@echo "  make deps              Install repository dependencies with pnpm"
-	@echo "  make setup-codex       Install npm/pnpm/codex if needed and set up Codex tooling and skills"
-	@echo "  make setup-codex-full  Same as setup-codex, with agent-browser system dependencies"
+	@echo "  make setup-codex       Install the Codex CLI and Codex-specific skills"
+	@echo "  make setup-claude      Install the Claude Code CLI"
 	@echo "  make build             Run the TypeScript build"
 	@echo "  make lint              Run oxlint"
 	@echo "  make format            Run Biome format"
@@ -17,19 +17,19 @@ help:
 	@echo "  make quality           Run the full quality gate"
 
 bootstrap:
-	./scripts/setup-codex-tooling.sh && pnpm install
+	./scripts/setup-agent-tooling.sh bootstrap
 
 bootstrap-full:
-	./scripts/setup-codex-tooling.sh --with-deps && pnpm install
+	./scripts/setup-agent-tooling.sh bootstrap --with-deps
 
 deps:
 	pnpm install
 
 setup-codex:
-	./scripts/setup-codex-tooling.sh
+	./scripts/setup-agent-tooling.sh setup codex
 
-setup-codex-full:
-	./scripts/setup-codex-tooling.sh --with-deps
+setup-claude:
+	./scripts/setup-agent-tooling.sh setup claude
 
 build:
 	pnpm run build

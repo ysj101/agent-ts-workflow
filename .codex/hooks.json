@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$(git rev-parse --show-toplevel)/.codex/hooks/session-start-context.mjs\"",
+            "command": "node \"$(git rev-parse --show-toplevel)/scripts/agent-hooks/session-start-context.mjs\" codex",
             "statusMessage": "Loading repository conventions"
           }
         ]
@@ -18,7 +18,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$(git rev-parse --show-toplevel)/.codex/hooks/post-tool-use-quality.mjs\"",
+            "command": "node \"$(git rev-parse --show-toplevel)/scripts/agent-hooks/post-tool-use-quality.mjs\"",
             "statusMessage": "Running Biome and Oxlint on changed files",
             "timeout": 120
           }

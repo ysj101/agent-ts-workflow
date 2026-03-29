@@ -126,23 +126,3 @@ agent-browser screenshot --full screenshots/2026-03-28-home-page.png
 ```
 
 必要であれば、モバイル幅でも追加で撮ります。
-
-## Hooks And Files
-
-- `CLAUDE.md`
-- `.claude/settings.json`
-- `.codex/config.toml`
-- `.codex/hooks.json`
-- `scripts/agent-hooks/session-start-context.mjs`
-- `scripts/agent-hooks/post-tool-use-quality.mjs`
-- `scripts/setup-agent-tooling.sh`
-- `AGENTS.md`
-- `PLANS.md`
-- `plans/agent-ts-workflow-dual-agent.md`
-
-## Suggested Next Additions
-
-- GitHub Actions で `pnpm run quality` を回す CI
-- フロントエンド採用後の `pnpm run dev` とスクリーンショット用 URL の固定
-- `requirements.toml` で sandbox / approval policy を固定
-- テストランナー導入後の `pnpm test` または `pnpm run test:watch`

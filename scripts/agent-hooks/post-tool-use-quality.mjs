@@ -58,7 +58,7 @@ function main() {
   }
 
   const biomeFiles = filesForExtensions(
-    files.filter((file) => !file.startsWith(".codex/")),
+    files.filter((file) => !file.startsWith(".codex/") && !file.startsWith(".claude/")),
     biomeExtensions,
   )
   if (biomeFiles.length > 0) {

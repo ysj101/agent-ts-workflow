@@ -1,0 +1,12 @@
+prefix_rule(
+    pattern = ["agent-browser"],
+    decision = "allow",
+    justification = "Allow agent-browser commands without prompting in this repository.",
+    match = [
+        "agent-browser open http://127.0.0.1:3000",
+        "agent-browser screenshot screenshots/example.png",
+    ],
+    not_match = [
+        "npx agent-browser open http://127.0.0.1:3000",
+    ],
+)

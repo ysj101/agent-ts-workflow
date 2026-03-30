@@ -113,16 +113,26 @@ ensure_claude() {
 }
 
 install_codex_skills() {
-  echo "Installing Codex skills..."
+  install_skills_for_agent codex
+}
+
+install_claude_skills() {
+  install_skills_for_agent claude
+}
+
+install_skills_for_agent() {
+  local agent="${1:?agent is required}"
+
+  echo "Installing ${agent} skills..."
   npx --yes "${SKILLS_PACKAGE}" add \
     "https://github.com/vercel-labs/agent-browser/tree/main/skills/agent-browser" \
     -g \
-    -a codex \
+    -a "${agent}" \
     -y
   npx --yes "${SKILLS_PACKAGE}" add \
     "https://github.com/anthropics/claude-code/tree/main/plugins/frontend-design/skills/frontend-design" \
     -g \
-    -a codex \
+    -a "${agent}" \
     -y
 }
 
@@ -180,6 +190,7 @@ setup_agent() {
       ;;
     claude)
       ensure_claude
+      install_claude_skills
       echo "Claude Code setup completed."
       ;;
     *)

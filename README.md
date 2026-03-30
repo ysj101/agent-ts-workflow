@@ -95,6 +95,7 @@ make setup-claude
 Claude setup では次を実行します。
 
 - `claude` CLI の確認と `@anthropic-ai/claude-code` の global install
+- Claude Code 向け skill の user-level install
 - repo-local の `CLAUDE.md` と `.claude/settings.json` を利用
 
 ## Agent Config Layout

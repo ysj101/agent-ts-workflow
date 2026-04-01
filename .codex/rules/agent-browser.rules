@@ -10,3 +10,33 @@ prefix_rule(
         "npx agent-browser open http://127.0.0.1:3000",
     ],
 )
+
+prefix_rule(
+    pattern = ["HOME=/tmp", "AGENT_BROWSER_HOME=/tmp/agent-browser", "agent-browser"],
+    decision = "allow",
+    justification = "Allow direct agent-browser commands with the shared temporary home.",
+    match = [
+        "HOME=/tmp AGENT_BROWSER_HOME=/tmp/agent-browser agent-browser reload",
+        "HOME=/tmp AGENT_BROWSER_HOME=/tmp/agent-browser agent-browser wait 3000",
+    ],
+    not_match = [
+        "HOME=/var AGENT_BROWSER_HOME=/tmp/agent-browser agent-browser reload",
+    ],
+)
+
+prefix_rule(
+    pattern = [
+        ["bash", "zsh", "sh"],
+        ["-lc", "-c"],
+        "HOME=/tmp AGENT_BROWSER_HOME=/tmp/agent-browser agent-browser reload && HOME=/tmp AGENT_BROWSER_HOME=/tmp/agent-browser agent-browser wait 3000 && HOME=/tmp AGENT_BROWSER_HOME=/tmp/agent-browser agent-browser console",
+    ],
+    decision = "allow",
+    justification = "Allow the standard chained agent-browser reload/wait/console shell wrapper.",
+    match = [
+        "zsh -lc 'HOME=/tmp AGENT_BROWSER_HOME=/tmp/agent-browser agent-browser reload && HOME=/tmp AGENT_BROWSER_HOME=/tmp/agent-browser agent-browser wait 3000 && HOME=/tmp AGENT_BROWSER_HOME=/tmp/agent-browser agent-browser console'",
+        "bash -lc 'HOME=/tmp AGENT_BROWSER_HOME=/tmp/agent-browser agent-browser reload && HOME=/tmp AGENT_BROWSER_HOME=/tmp/agent-browser agent-browser wait 3000 && HOME=/tmp AGENT_BROWSER_HOME=/tmp/agent-browser agent-browser console'",
+    ],
+    not_match = [
+        "zsh -lc 'HOME=/tmp AGENT_BROWSER_HOME=/tmp/agent-browser agent-browser reload && rm -rf /tmp/example'",
+    ],
+)
